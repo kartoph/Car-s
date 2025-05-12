@@ -72,25 +72,36 @@ function fetchAndPopulateData(filePath) {
             // Populate the gallery based on the selected brand, model, and year
             function populateGallery(brand, model, year, carsData) {
                 gallery.innerHTML = ''; // Clear previous gallery
-                currentImages = Object.keys(carsData)
-                    .filter(key => key.startsWith(`${brand}/${model}/${year}`))
-                    .map(key => carsData[key]);
+
+                // Get unique images for the selected brand, model, and year
+                currentImages = [...new Set(
+                    Object.keys(carsData)
+                        .filter(key => key.startsWith(`${brand}/${model}/${year}`))
+                        .map(key => carsData[key])
+                )];
+
                 currentImages.forEach((imageUrl, index) => {
                     const img = document.createElement('img');
                     img.src = imageUrl;
                     img.alt = `${brand} ${model} ${year}`;
                     img.loading = 'lazy'; // Lazy loading for performance
                     img.classList.add('gallery-image');
-                    img.addEventListener('error', () => img.remove()); // Remove if image fails to load
+
+                    // Add event listener to handle image loading
                     img.addEventListener('load', () => {
                         if (img.naturalWidth <= 1 || img.naturalHeight <= 1) {
-                            img.remove(); // Remove if intrinsic size is 1x1
+                            // Remove image if its size is 1x1
+                            img.remove();
                         } else {
+                            // Add the image to the gallery if it's valid
                             img.classList.add('loaded'); // Add class when loaded
+                            img.addEventListener('click', () => openModal(index));
+                            gallery.appendChild(img);
                         }
                     });
-                    img.addEventListener('click', () => openModal(index));
-                    gallery.appendChild(img);
+
+                    // Remove image if it fails to load
+                    img.addEventListener('error', () => img.remove());
                 });
             }
 
@@ -101,16 +112,28 @@ function fetchAndPopulateData(filePath) {
                 modal.classList.add('modal');
                 modal.innerHTML = `
                     <div class="modal-content">
-                        <button class="modal-prev">&lt;</button>
                         <img src="${currentImages[currentIndex]}" alt="Image">
-                        <button class="modal-next">&gt;</button>
                     </div>
+                    <button class="modal-prev">&lt;</button>
+                    <button class="modal-next">&gt;</button>
                 `;
                 modal.querySelector('.modal-prev').addEventListener('click', showPrevImage);
                 modal.querySelector('.modal-next').addEventListener('click', showNextImage);
                 modal.addEventListener('click', (e) => {
                     if (e.target === modal) modal.remove(); // Close modal on background click
                 });
+
+                // Add keyboard event listener for navigation
+                document.addEventListener('keydown', handleKeyNavigation);
+
+                // Remove modal and keyboard listener on close
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                        document.removeEventListener('keydown', handleKeyNavigation);
+                    }
+                });
+
                 document.body.appendChild(modal);
             }
 
@@ -130,6 +153,21 @@ function fetchAndPopulateData(filePath) {
             function updateModalImage() {
                 const modalImage = document.querySelector('.modal-content img');
                 modalImage.src = currentImages[currentIndex];
+            }
+
+            // Handle keyboard navigation
+            function handleKeyNavigation(event) {
+                if (event.key === 'ArrowLeft') {
+                    showPrevImage();
+                } else if (event.key === 'ArrowRight') {
+                    showNextImage();
+                } else if (event.key === 'Escape') {
+                    const modal = document.querySelector('.modal');
+                    if (modal) {
+                        modal.remove();
+                        document.removeEventListener('keydown', handleKeyNavigation);
+                    }
+                }
             }
         })
         .catch(error => console.error('Error loading JSON:', error));
