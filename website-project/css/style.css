@@ -1,0 +1,150 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+}
+
+h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.main-container {
+    display: flex;
+    height: calc(100vh - 60px); /* Full height minus header */
+}
+
+/* Ensure the menu container is displayed as a row */
+.menu-container {
+    display: flex; /* Align menus horizontally */
+    width: 50%; /* Menus occupy 50% of the page width */
+    flex-direction: row; /* Horizontal alignment */
+    background-color: #e0e0e0;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+/* Each menu takes equal space */
+.menu {
+    flex: 1; /* Equal width for all menus */
+    margin: 0 5px; /* Add spacing between menus */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    overflow-y: auto; /* Ensure scrolling instead of expanding */
+}
+
+/* Menu headers */
+.menu h2 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Menu items */
+.menu ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.menu ul li {
+    margin: 5px 0;
+}
+
+.menu ul li a {
+    display: block;
+    text-decoration: none;
+    color: #333;
+    background-color: #d0d0d0;
+    padding: 8px;
+    border-radius: 3px;
+    text-align: center;
+    font-size: 14px; /* Ensure consistent font size */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Add ellipsis for long text */
+    transition: background-color 0.3s ease; /* Smooth hover effect */
+}
+
+.menu ul li a:hover {
+    background-color: #bbb;
+}
+
+/* Gallery container */
+.gallery-container {
+    width: 50%; /* Gallery occupies 50% of the page width */
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.gallery-container h2 {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.gallery img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    transition: opacity 0.3s ease; /* Smooth loading */
+    opacity: 0; /* Initially hidden */
+}
+
+.gallery img.loaded {
+    opacity: 1; /* Show when loaded */
+}
+
+/* Modal styles */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8); /* Напівпрозорий чорний фон */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    text-align: center;
+    color: white;
+    max-width: 90%; /* Максимальна ширина модального вікна */
+    max-height: 90%; /* Максимальна висота модального вікна */
+    overflow: hidden; /* Приховати зайвий контент */
+}
+
+.modal-content img {
+    max-width: 100%; /* Зображення займає всю ширину модального вікна */
+    max-height: 100%; /* Зображення займає всю висоту модального вікна */
+    border: 2px solid white;
+    border-radius: 10px;
+    object-fit: contain; /* Зберігати пропорції зображення */
+}
+
+.modal-content h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: white;
+}
