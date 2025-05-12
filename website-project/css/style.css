@@ -128,6 +128,7 @@ h1 {
 }
 
 .modal-content {
+    position: relative;
     text-align: center;
     color: white;
     max-width: 90%; /* Максимальна ширина модального вікна */
@@ -141,6 +142,32 @@ h1 {
     border: 2px solid white;
     border-radius: 10px;
     object-fit: contain; /* Зберігати пропорції зображення */
+}
+
+.modal-content button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    color: black;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 1001;
+    border-radius: 50%;
+}
+
+.modal-content .modal-prev {
+    left: 10px;
+}
+
+.modal-content .modal-next {
+    right: 10px;
+}
+
+.modal-content button:hover {
+    background-color: rgba(255, 255, 255, 1);
 }
 
 .modal-content h2 {
